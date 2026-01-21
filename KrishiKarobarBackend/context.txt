@@ -1,0 +1,27 @@
+We are building an ecommerce in agriculture system where farmers can upload products and customer can buy and connect with farmers directly. 
+
+6.2 Incremental Implementation Plan
+
+Our system will be developed in following increments.
+6.2.1 Increment 1: Foundation & Farmer Portal
+•	Environment & Architecture
+– Initialize the Django project with sqlite and React app.
+– Define the database schema for Users (with farmer/dealer roles).
+•	Authentication & Profiles
+– Implement sign-up, login, and profile management for both farmers and dealers.
+•	Farmer “Sell” Section
+–Build CRUD interface for Farmers to create, read, update, and delete product listings (name, description, price, quantity, images).
+– Design Farmer’s own dashboard showing their active listings.
+
+6.2.2 Increment 2: Dealer/Customer Experience & Location Features
+•	Dealer/Customer “Buy” Section
+–Implement product catalog browsing, detail pages, and filtering/search (keyword, category, price range).
+– Enable Dealers to add items to a cart or purchase list (no payment integration).
+•	Geolocation & Mapping
+– Integrate Google Maps API (or similar) for geolocation.
+– Build section to display nearest farmers or users.
+
+6.2.3 Increment 3: Admin, Testing and Documentation
+•	Admin Inventory Management
+– Configure Django’s admin panel for CRUD on farming tools, machinery, and crop categories.
+– Expose a public “Inventory” page for users to browse admin-managed items.

@@ -1,6 +1,5 @@
 // Centralized API base URL for the MinorKrishi frontend
-// Deployed backend on Render
-export const BASE_URL = 'https://krishikarobar-farmercustomer-marketplace-lc3i.onrender.com';
+export const BASE_URL = 'http://localhost:8000';
 
 // Helper to build full API URLs
 export const apiUrl = (path) => `${BASE_URL}${path}`;

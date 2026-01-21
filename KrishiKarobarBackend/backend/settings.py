@@ -27,7 +27,11 @@ SECRET_KEY = 'django-insecure-ye6-*i-7cnc84qz&v1$tg9d=i+ac+j$y8q0ch*t!i%-%h_toxq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "krishikarobar-farmercustomer-marketplace-lc3i.onrender.com",  
+    "localhost",
+]
+
 
 
 
@@ -161,3 +165,4 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny', #ISAuthenticated
     ),
 }
+

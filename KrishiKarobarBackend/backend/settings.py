@@ -161,3 +161,4 @@ REST_FRAMEWORK = {
     ),
 }
 
+

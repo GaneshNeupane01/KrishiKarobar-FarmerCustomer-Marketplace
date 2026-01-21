@@ -5,7 +5,7 @@ if not os.getenv("DJANGO_SUPERUSER_USERNAME") or not os.getenv("DJANGO_SUPERUSER
     print("Superuser env vars not set. Skipping.")
     exit(0)
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "readersstation.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
 django.setup()
 
 from django.contrib.auth import get_user_model

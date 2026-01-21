@@ -1,0 +1,83 @@
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    padding: 20px;
+  }
+  
+  .auth-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .auth-card h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 2rem;
+  }
+  
+  .user-type-toggle {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .user-type-toggle button {
+    flex: 1;
+    padding: 0.75rem;
+    border: 2px solid #4CAF50;
+    background: none;
+    color: #4CAF50;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .user-type-toggle button.active {
+    background: #4CAF50;
+    color: white;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  input {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  .submit-button {
+    background: #4CAF50;
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .submit-button:hover {
+    background: #45a049;
+  }
+  
+  .auth-link {
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .auth-link a {
+    color: #4CAF50;
+    text-decoration: none;
+  }

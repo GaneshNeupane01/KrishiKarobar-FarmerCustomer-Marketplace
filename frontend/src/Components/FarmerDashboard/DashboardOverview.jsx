@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BarChart2, ShoppingBag, Package, DollarSign, Users, Plus, Bell, ChevronRight, TrendingUp, TrendingDown, Calendar, Star, Activity, Target, Award, Zap, X, Check } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { fetchNotifications, markNotificationRead, clearNotification } from '../../api/notifications';
+import { apiUrl } from '../../api/baseUrl';
 
 const demoStats = [];
 const demoOrders = [];
@@ -27,7 +28,7 @@ export default function DashboardOverview({ onViewAllOrders, onSectionChange }) 
     // Fetch first and last name for greeting
     const fetchProfile = async () => {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:8000/api/profile/', {
+      const res = await fetch(apiUrl('/api/profile/'), {
         headers: token ? { 'Authorization': 'Token ' + token } : {}
       });
       if (res.ok) {
@@ -41,7 +42,7 @@ export default function DashboardOverview({ onViewAllOrders, onSectionChange }) 
       setAnalyticsLoading(true);
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch('http://localhost:8000/api/farmer-analytics/', {
+        const res = await fetch(apiUrl('/api/farmer-analytics/'), {
           headers: { 'Authorization': `Token ${token}` }
         });
         if (!res.ok) throw new Error('Failed to fetch analytics');

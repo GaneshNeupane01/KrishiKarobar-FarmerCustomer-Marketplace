@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, User, Users, CircleDot, Phone, PhoneCall, MessageCircle, Bell, Search, MoreVertical, Image as ImageIcon, Paperclip, Smile, Mic, Video, Info, Trash2, Archive, Star, Clock, Check, CheckCheck, RefreshCw } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { apiUrl } from '../../api/baseUrl';
 
 const Messages = () => {
   const { userType, isAuthenticated, profile } = useAuth();
@@ -36,7 +37,7 @@ const Messages = () => {
     };
     
     initialFetch();
-    const interval = setInterval(fetchAndSet, 1000); // Poll every 1 second
+    const interval = setInterval(fetchAndSet, 60000); // Poll every 60 seconds
     
     // Request notification permission
     if (Notification.permission === 'default') {
@@ -77,7 +78,7 @@ const Messages = () => {
     
     try {
       console.log('Fetching conversations for farmer...');
-      let response = await fetch('http://localhost:8000/api/conversations/with_customer/', {
+      let response = await fetch(apiUrl('/api/conversations/with_customer/'), {
         headers: { 'Authorization': `Token ${token}` }
       });
       
@@ -86,7 +87,7 @@ const Messages = () => {
       // If the specific endpoint fails, try the general conversations endpoint
       if (!response.ok) {
         console.log('Trying general conversations endpoint...');
-        response = await fetch('http://localhost:8000/api/conversations/all_conversations/', {
+        response = await fetch(apiUrl('/api/conversations/all_conversations/'), {
           headers: { 'Authorization': `Token ${token}` }
         });
         console.log('General endpoint response status:', response.status);
@@ -120,7 +121,7 @@ const Messages = () => {
   // Fetch messages for a conversation
   const fetchMessages = async (conversationId) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/messages/conversation_messages/?conversation_id=${conversationId}`, {
+      const response = await fetch(apiUrl(`/api/messages/conversation_messages/?conversation_id=${conversationId}`), {
         headers: { 'Authorization': `Token ${token}` }
       });
       if (response.ok) {
@@ -139,7 +140,7 @@ const Messages = () => {
     setSending(true);
     try {
       const otherUser = selectedConversation.other_participant;
-      const response = await fetch('http://localhost:8000/api/messages/send_message/', {
+      const response = await fetch(apiUrl('/api/messages/send_message/'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

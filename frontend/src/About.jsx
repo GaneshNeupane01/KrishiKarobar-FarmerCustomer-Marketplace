@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import FloatingLeavesBackground from './FloatingLeavesBackground';
 import { Link } from 'react-router-dom';
+import { apiUrl } from './api/baseUrl';
 import Navbar from './Components/Navbar';
 
 // Helper: Intersection Observer hook for scroll animations
@@ -192,7 +193,7 @@ export default function About() {
 
   // Fetch aggregate user stats for animated counters
   useEffect(() => {
-    fetch('http://localhost:8000/api/users/stats/')
+    fetch(apiUrl('/api/users/stats/'))
       .then(res => (res.ok ? res.json() : Promise.reject(res)))
       .then(data => {
         setFarmerCount(typeof data.farmers === 'number' ? data.farmers : 0);

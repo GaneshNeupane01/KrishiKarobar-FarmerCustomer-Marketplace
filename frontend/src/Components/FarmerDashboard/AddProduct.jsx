@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Upload, Image as ImageIcon, CheckCircle, XCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { apiUrl } from '../../api/baseUrl';
 
 const categories = {
   Vegetables: ['Potato', 'Tomato', 'Onion', 'Lettuce', 'Spinach', 'Carrot'],
@@ -121,7 +122,7 @@ export default function AddProduct() {
       } else {
         formData.delete('image');
       }
-      const res = await fetch('http://localhost:8000/api/products/', {
+      const res = await fetch(apiUrl('/api/products/'), {
         method: 'POST',
         headers: { 'Authorization': `Token ${token}` },
         body: formData,

@@ -6,7 +6,8 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': 'http://localhost:8000',
+      // Optional dev proxy to local backend; update if needed
+      '/api': 'https://krishikarobar-farmercustomer-marketplace-lc3i.onrender.com',
     },
   },
 })

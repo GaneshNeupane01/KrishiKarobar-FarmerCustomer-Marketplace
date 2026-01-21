@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { apiUrl } from './api/baseUrl';
 import { useAuth } from './context/AuthContext';
 import { User, Mail, Lock, Eye, EyeOff, MapPin, Phone, Briefcase, Sprout, ShoppingCart, Image as ImageIcon } from 'lucide-react';
 import FloatingLeavesBackground from './FloatingLeavesBackground'; // Import the background component
@@ -296,7 +297,7 @@ const Signup = () => {
         businessName: formData.businessName,
       });
       
-      const res = await fetch('http://localhost:8000/api/register/', {
+      const res = await fetch(apiUrl('/api/register/'), {
         method: 'POST',
         body: data,
       });

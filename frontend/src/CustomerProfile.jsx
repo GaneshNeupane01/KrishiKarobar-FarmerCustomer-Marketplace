@@ -8,6 +8,7 @@ import FloatingLeavesBackground from './FloatingLeavesBackground'; // Import the
 import Navbar from './Components/Navbar';
 import { getUserInitials } from './utils';
 import { useAuth } from './context/AuthContext';
+import { apiUrl, BASE_URL } from './api/baseUrl';
 
 const CustomerProfile = () => {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ const CustomerProfile = () => {
 
     (async () => {
       try {
-        const res = await fetch('http://localhost:8000/api/profile/', {
+        const res = await fetch(apiUrl('/api/profile/'), {
           headers: { 'Authorization': 'Token ' + localStorage.getItem('token') }
         });
         if (!res.ok) throw new Error();
@@ -69,7 +70,7 @@ const CustomerProfile = () => {
   const fetchOrders = async () => {
     setOrdersLoading(true);
     try {
-      const res = await fetch('http://localhost:8000/api/orders/?ordering=-created_at', {
+      const res = await fetch(apiUrl('/api/orders/?ordering=-created_at'), {
         headers: { 'Authorization': 'Token ' + localStorage.getItem('token') }
       });
       if (!res.ok) throw new Error();
@@ -101,7 +102,7 @@ const CustomerProfile = () => {
     form.append('business_name', profileData.businessName);
     form.append('business_type', profileData.businessType);
     try {
-      const res = await fetch('http://localhost:8000/api/profile/', {
+      const res = await fetch(apiUrl('/api/profile/'), {
         method: 'PUT',
         headers: { 'Authorization': 'Token ' + token }, // DO NOT set Content-Type
         body: form
@@ -138,7 +139,7 @@ const CustomerProfile = () => {
     const form = new FormData();
     form.append('profile_picture', file);
     try {
-      const res = await fetch('http://localhost:8000/api/profile/', {
+      const res = await fetch(apiUrl('/api/profile/'), {
         method: 'PUT',
         headers: { 'Authorization': 'Token ' + token },
         body: form
@@ -288,7 +289,7 @@ const CustomerProfile = () => {
               <div className="relative group">
                 <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-blue-200 dark:border-blue-700 group-hover:border-blue-400 dark:group-hover:border-blue-500 transition-colors duration-300 relative">
                   {profileData.profilePicture
-                    ? <img src={`http://localhost:8000${profileData.profilePicture}`}
+                    ? <img src={`${BASE_URL}${profileData.profilePicture}`}
                            alt="Profile"
                            className="w-full h-full object-cover transition-transform group-hover:scale-110" />
                     : <div className="w-full h-full bg-blue-500 flex items-center justify-center text-white text-4xl font-bold">

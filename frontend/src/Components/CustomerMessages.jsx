@@ -26,6 +26,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import { useAuth } from '../context/AuthContext';
+import { apiUrl } from '../api/baseUrl';
 
 const CustomerMessages = () => {
   const navigate = useNavigate();
@@ -59,7 +60,7 @@ const CustomerMessages = () => {
     };
     
     fetchAndSet();
-    const interval = setInterval(fetchAndSet, 1000); // Poll every 1 second
+    const interval = setInterval(fetchAndSet, 60000); // Poll every 60 seconds
     
     return () => { 
       isMounted = false; 
@@ -77,7 +78,7 @@ const CustomerMessages = () => {
   // Fetch conversations
   const fetchConversations = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/conversations/with_farmer/', {
+      const response = await fetch(apiUrl('/api/conversations/with_farmer/'), {
         headers: { 'Authorization': 'Token ' + localStorage.getItem('token') }
       });
       if (response.ok) {
@@ -98,7 +99,7 @@ const CustomerMessages = () => {
   // Fetch messages for a conversation
   const fetchMessages = async (conversationId) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/messages/conversation_messages/?conversation_id=${conversationId}`, {
+      const response = await fetch(apiUrl(`/api/messages/conversation_messages/?conversation_id=${conversationId}`), {
         headers: { 'Authorization': 'Token ' + localStorage.getItem('token') }
       });
       if (response.ok) {
@@ -117,7 +118,7 @@ const CustomerMessages = () => {
     setSending(true);
     try {
       const otherUser = selectedConversation.other_participant;
-      const response = await fetch('http://localhost:8000/api/messages/send_message/', {
+      const response = await fetch(apiUrl('/api/messages/send_message/'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

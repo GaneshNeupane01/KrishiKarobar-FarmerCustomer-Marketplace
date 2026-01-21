@@ -4,10 +4,11 @@ import FloatingLeavesBackground from './FloatingLeavesBackground';
 import Navbar from './Components/Navbar';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
+import { apiUrl } from './api/baseUrl';
 
 // Backend API endpoint for browsing products
-const API_URL = 'http://localhost:8000/api/browse-products/';
-const CART_ITEMS_URL = 'http://localhost:8000/api/cart/items/';
+const API_URL = apiUrl('/api/browse-products/');
+const CART_ITEMS_URL = apiUrl('/api/cart/items/');
 
 const categories = [
   { name: 'Vegetables', icon: <Sun className="w-5 h-5" /> },

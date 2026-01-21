@@ -4,6 +4,7 @@ import FloatingLeavesBackground from './FloatingLeavesBackground';
 import { getUserInitials } from './utils';
 import MessageButton from './Components/MessageButton';
 import Navbar from './Components/Navbar';
+import { apiUrl } from './api/baseUrl';
 
 const Farmers = () => {
   const [farmers, setFarmers] = useState([]);
@@ -38,7 +39,7 @@ const Farmers = () => {
   const fetchFarmers = async (lat = null, lon = null) => {
     try {
       setLoading(true);
-      let url = 'http://localhost:8000/api/users/farmers/';
+      let url = apiUrl('/api/users/farmers/');
       if (lat && lon) {
         url += `?lat=${lat}&lon=${lon}`;
       }

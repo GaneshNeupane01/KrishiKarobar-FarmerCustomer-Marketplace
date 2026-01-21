@@ -198,7 +198,9 @@ const faqs = [
 ];
 
 // Cart API for adding items
-const CART_ITEMS_URL = 'http://localhost:8000/api/cart/items/';
+import { apiUrl } from './api/baseUrl';
+
+const CART_ITEMS_URL = apiUrl('/api/cart/items/');
 const token = localStorage.getItem('token');
 
 // 1. HERO IMAGE SLIDER SETUP
@@ -309,7 +311,7 @@ export default function Home() {
 
   // Fetch aggregate user stats for animated counters
   useEffect(() => {
-    fetch('http://localhost:8000/api/users/stats/')
+    fetch(apiUrl('/api/users/stats/'))
       .then(res => (res.ok ? res.json() : Promise.reject(res)))
       .then(data => {
         setFarmerCount(typeof data.farmers === 'number' ? data.farmers : 0);
@@ -325,7 +327,7 @@ export default function Home() {
   useEffect(() => {
     setLoadingProducts(true);
     // Fresh products: recently added
-    fetch('http://localhost:8000/api/browse-products/?ordering=-date_added&page_size=8')
+    fetch(apiUrl('/api/browse-products/?ordering=-date_added&page_size=8'))
       .then(res => res.ok ? res.json() : Promise.reject(res))
       .then(data => {
         const list = Array.isArray(data) ? data : (data.results || []);
@@ -335,7 +337,7 @@ export default function Home() {
         setFreshProducts([]);
       });
     // Top selling: approximate by highest review_count ("most popular")
-    fetch('http://localhost:8000/api/browse-products/?ordering=-review_count&page_size=8')
+    fetch(apiUrl('/api/browse-products/?ordering=-review_count&page_size=8'))
       .then(res => res.ok ? res.json() : Promise.reject(res))
       .then(data => {
         const list = Array.isArray(data) ? data : (data.results || []);
@@ -345,7 +347,7 @@ export default function Home() {
         setTopProducts([]);
       });
     // Featured: random selection from backend products
-    fetch('http://localhost:8000/api/browse-products/?page_size=24')
+    fetch(apiUrl('/api/browse-products/?page_size=24'))
       .then(res => res.ok ? res.json() : Promise.reject(res))
       .then(data => {
         const list = Array.isArray(data) ? data : (data.results || []);
@@ -361,7 +363,7 @@ export default function Home() {
   // Fetch farmers (recently joined)
   useEffect(() => {
     setLoadingFarmers(true);
-    fetch('http://localhost:8000/api/users/farmers/')
+    fetch(apiUrl('/api/users/farmers/'))
       .then(res => res.ok ? res.json() : Promise.reject(res))
       .then(data => {
         setFarmers(data);
@@ -375,7 +377,7 @@ export default function Home() {
   // Fetch testimonials (reviews)
   useEffect(() => {
     setLoadingTestimonials(true);
-    fetch('http://localhost:8000/api/inventory-reviews/?ordering=-date&page_size=6')
+    fetch(apiUrl('/api/inventory-reviews/?ordering=-date&page_size=6'))
       .then(res => res.ok ? res.json() : Promise.reject(res))
       .then(data => {
         const list = Array.isArray(data) ? data : (data.results || []);
@@ -396,7 +398,7 @@ export default function Home() {
     const token = localStorage.getItem('token');
     if (!token) return;
     setLoadingPastFarmers(true);
-    fetch('http://localhost:8000/api/orders/', {
+    fetch(apiUrl('/api/orders/'), {
       headers: { Authorization: 'Token ' + token },
     })
       .then(res => res.json())

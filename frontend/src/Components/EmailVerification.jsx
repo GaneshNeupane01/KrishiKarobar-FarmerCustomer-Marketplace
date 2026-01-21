@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { apiUrl } from '../api/baseUrl';
 import { CheckCircle, XCircle, Mail, RefreshCw, ArrowLeft } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
@@ -19,7 +20,7 @@ const EmailVerification = () => {
 
   const verifyEmail = async (verificationToken) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/verify-email/${verificationToken}/`);
+        const response = await fetch(apiUrl(`/api/verify-email/${verificationToken}/`));
       const data = await response.json();
 
       if (response.ok && data.verified) {
@@ -39,7 +40,7 @@ const EmailVerification = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8000/api/resend-verification/', {
+        const response = await fetch(apiUrl('/api/resend-verification/'), {
         method: 'POST',
         headers: {
           'Authorization': `Token ${token}`,

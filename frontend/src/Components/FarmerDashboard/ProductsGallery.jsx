@@ -3,6 +3,7 @@ import { Edit, Trash2, Plus, Search, Filter, CheckSquare, Square, ChevronDown, C
 import EditProductModal from './EditProductModal';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
 import { useNavigate } from 'react-router-dom';
+import { apiUrl } from '../../api/baseUrl';
 
 const categoryOptions = ['All', 'Vegetables', 'Fruits', 'Grains', 'Dairy', 'Herbs', 'Seeds'];
 
@@ -41,7 +42,7 @@ export default function ProductsGallery() {
     try {
       const token = localStorage.getItem('token');
       // Get farmer username from profile
-      const profileRes = await fetch('http://localhost:8000/api/profile/', {
+      const profileRes = await fetch(apiUrl('/api/profile/'), {
         headers: { 'Authorization': `Token ${token}` }
       });
       if (!profileRes.ok) throw new Error('Failed to fetch profile');
@@ -63,7 +64,7 @@ export default function ProductsGallery() {
       }
       // Always filter by farmer
       params.push(`farmer_username=${encodeURIComponent(farmerName)}`);
-      const url = `http://localhost:8000/api/products/?${params.join('&')}`;
+      const url = apiUrl(`/api/products/?${params.join('&')}`);
       const prodRes = await fetch(url, {
         headers: { 'Authorization': `Token ${token}` }
       });
@@ -116,7 +117,7 @@ export default function ProductsGallery() {
       } else {
         formData.delete('image');
       }
-      const res = await fetch(`http://localhost:8000/api/products/${editModal.product.id}/`, {
+      const res = await fetch(apiUrl(`/api/products/${editModal.product.id}/`), {
         method: 'PATCH',
         headers: { 'Authorization': `Token ${token}` },
         body: formData,
@@ -145,7 +146,7 @@ export default function ProductsGallery() {
       if (deleteModal.bulk) {
         // Bulk delete
         await Promise.all(selected.map(async id => {
-          const res = await fetch(`http://localhost:8000/api/products/${id}/`, {
+          const res = await fetch(apiUrl(`/api/products/${id}/`), {
             method: 'DELETE',
             headers: { 'Authorization': `Token ${token}` },
           });
@@ -156,7 +157,7 @@ export default function ProductsGallery() {
         }));
         setSelected([]);
       } else if (deleteModal.product) {
-        const res = await fetch(`http://localhost:8000/api/products/${deleteModal.product.id}/`, {
+        const res = await fetch(apiUrl(`/api/products/${deleteModal.product.id}/`), {
           method: 'DELETE',
           headers: { 'Authorization': `Token ${token}` },
         });

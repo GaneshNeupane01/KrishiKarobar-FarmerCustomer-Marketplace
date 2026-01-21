@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BarChart2, TrendingUp, DollarSign, Package, ShoppingBag, PieChart, LineChart, ArrowUpRight, Users } from 'lucide-react';
 import { LineChart as RLineChart, Line, XAxis, YAxis, Tooltip as RTooltip, ResponsiveContainer, CartesianGrid, BarChart as RBarChart, Bar, PieChart as RPieChart, Pie, Cell, Legend } from 'recharts';
+import { apiUrl } from '../../api/baseUrl';
 
 const COLORS = ['#10b981', '#06b6d4', '#f59e42', '#6366f1', '#f43f5e', '#fbbf24', '#a3e635', '#f472b6'];
 
@@ -16,7 +17,7 @@ export default function Analytics() {
       setLoading(true);
       setError('');
       try {
-        const res = await fetch('http://localhost:8000/api/farmer-analytics/', {
+        const res = await fetch(apiUrl('/api/farmer-analytics/'), {
           headers: token ? { 'Authorization': 'Token ' + token } : {},
         });
         if (!res.ok) throw new Error('Failed to fetch analytics');

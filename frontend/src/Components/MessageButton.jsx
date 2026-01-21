@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MessageCircle, Phone, Send, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { apiUrl } from '../api/baseUrl';
 
 const MessageButton = ({ product, farmer }) => {
   const [showMessageModal, setShowMessageModal] = useState(false);
@@ -85,7 +86,7 @@ const MessageButton = ({ product, farmer }) => {
     setError('');
     
     try {
-      const response = await fetch('http://localhost:8000/api/messages/send_message/', {
+      const response = await fetch(apiUrl('/api/messages/send_message/'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

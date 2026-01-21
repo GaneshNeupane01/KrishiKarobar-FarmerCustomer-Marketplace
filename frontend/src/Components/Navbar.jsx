@@ -4,9 +4,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import ThemeToggle from '../ThemeToggle';
 import { fetchNotifications } from '../api/notifications';
 import { useAuth } from '../context/AuthContext';
+import { apiUrl } from '../api/baseUrl';
 
-const CART_API_URL = 'http://localhost:8000/api/cart/';
-const MESSAGES_API_URL = 'http://localhost:8000/api/conversations/with_farmer/';
+const CART_API_URL = apiUrl('/api/cart/');
+const MESSAGES_API_URL = apiUrl('/api/conversations/with_farmer/');
 
 export default function Navbar({ showSearch = true, showLogout = false, onLogout }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -51,7 +52,7 @@ export default function Navbar({ showSearch = true, showLogout = false, onLogout
       }
     };
     fetchAndSet();
-    const interval = setInterval(fetchAndSet, 20000); // Poll every 20 seconds
+    const interval = setInterval(fetchAndSet, 600000); // Poll every 10 minutes
     return () => { isMounted = false; clearInterval(interval); };
   }, [isAuthenticated, isCustomer]);
 

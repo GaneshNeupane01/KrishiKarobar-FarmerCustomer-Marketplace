@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import { getUserInitials } from '../utils';
 
-const API_URL = 'http://localhost:8000/api/orders/';
+import { apiUrl } from '../api/baseUrl';
+
+const API_URL = apiUrl('/api/orders/');
 
 const statusColors = {
   all: 'bg-gray-100 text-gray-700 border-gray-300',

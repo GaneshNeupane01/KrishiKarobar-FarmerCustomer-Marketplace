@@ -29,6 +29,7 @@ import FloatingLeavesBackground from './FloatingLeavesBackground'; // Import the
 import Navbar from './Components/Navbar';
 import { getUserInitials } from './utils';
 import { useAuth } from './context/AuthContext';
+import { apiUrl, BASE_URL } from './api/baseUrl';
 
 const FarmerProfile = () => {
   const navigate = useNavigate();
@@ -73,7 +74,7 @@ const FarmerProfile = () => {
 
     const fetchProfile = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/profile/', {
+        const response = await fetch(apiUrl('/api/profile/'), {
           headers: token ? { 'Authorization': 'Token ' + token } : {},
         });
 
@@ -118,7 +119,7 @@ const FarmerProfile = () => {
     const fetchAnalytics = async (username) => {
       setAnalyticsLoading(true);
       try {
-        const res = await fetch('http://localhost:8000/api/farmer-analytics/', {
+        const res = await fetch(apiUrl('/api/farmer-analytics/'), {
           headers: token ? { 'Authorization': 'Token ' + token } : {},
         });
         if (!res.ok) throw new Error('Failed to fetch analytics');
@@ -141,7 +142,7 @@ const FarmerProfile = () => {
 
     const fetchRecentProducts = async (username) => {
       try {
-        const res = await fetch(`http://localhost:8000/api/products/?ordering=-date_added&limit=3&farmer_username=${username}`,
+        const res = await fetch(apiUrl(`/api/products/?ordering=-date_added&limit=3&farmer_username=${username}`),
           { headers: token ? { 'Authorization': 'Token ' + token } : {} });
         if (!res.ok) throw new Error('Failed to fetch recent products');
         const data = await res.json();
@@ -153,7 +154,7 @@ const FarmerProfile = () => {
 
     const fetchRecentReviews = async (username) => {
       try {
-        const res = await fetch(`http://localhost:8000/api/product-reviews/?ordering=-date&farmer_username=${username}&limit=3`, {
+        const res = await fetch(apiUrl(`/api/product-reviews/?ordering=-date&farmer_username=${username}&limit=3`), {
           headers: token ? { 'Authorization': 'Token ' + token } : {},
         });
         if (!res.ok) throw new Error('Failed to fetch recent reviews');
@@ -226,7 +227,7 @@ const FarmerProfile = () => {
     form.append('farming_experience', profileData.farmingExperience);
     form.append('crop_types', profileData.cropTypes);
     try {
-      const response = await fetch('http://localhost:8000/api/profile/', {
+      const response = await fetch(apiUrl('/api/profile/'), {
         method: 'PUT',
         headers: token ? { 'Authorization': 'Token ' + token } : {}, // DO NOT set Content-Type
         body: form
@@ -274,7 +275,7 @@ const FarmerProfile = () => {
     formData.append('profile_picture', file);
 
     try {
-      const response = await fetch('http://localhost:8000/api/profile/', {
+      const response = await fetch(apiUrl('/api/profile/'), {
         method: 'PUT',
         headers: token ? { 'Authorization': 'Token ' + token } : {},
         body: formData
@@ -335,7 +336,7 @@ const FarmerProfile = () => {
                 <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-emerald-200 dark:border-emerald-700 group-hover:border-emerald-400 dark:group-hover:border-emerald-500 transition-colors duration-300 relative">
                   {profileData.profilePicture ? (
                     <img 
-                      src={`http://localhost:8000${profileData.profilePicture}`} 
+                      src={`${BASE_URL}${profileData.profilePicture}`} 
                       alt="Profile" 
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                     />

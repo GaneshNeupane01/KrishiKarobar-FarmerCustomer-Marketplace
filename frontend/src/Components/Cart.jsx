@@ -5,9 +5,10 @@ import { FaTrash, FaMinus, FaPlus, FaShoppingCart, FaArrowLeft, FaTag } from 're
 import tomatoesImg from '../assets/tomatoes.jpg';
 import Navbar from './Navbar';
 import FloatingLeavesBackground from '../FloatingLeavesBackground';
+import { apiUrl } from '../api/baseUrl';
 
-const API_URL = 'http://localhost:8000/api/cart/';
-const API_ITEMS_URL = 'http://localhost:8000/api/cart/items/';
+const API_URL = apiUrl('/api/cart/');
+const API_ITEMS_URL = apiUrl('/api/cart/items/');
 
 const badgeColors = [
   'bg-green-500 text-white',
@@ -165,7 +166,7 @@ const Cart = () => {
     setLoading(true);
     try {
       // Fetch customer profile for address
-      const profileRes = await fetch('http://localhost:8000/api/profile/', {
+      const profileRes = await fetch(apiUrl('/api/profile/'), {
         headers: { 'Authorization': `Token ${token}` }
       });
       if (!profileRes.ok) throw new Error('Failed to fetch profile');
@@ -202,7 +203,7 @@ const Cart = () => {
       };
 
       // Place order
-      const res = await fetch('http://localhost:8000/api/orders/', {
+      const res = await fetch(apiUrl('/api/orders/'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

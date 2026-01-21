@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { User, Lock, Eye, EyeOff, Sprout, ArrowRight, Leaf, Sun } from 'lucide-react';
 import FloatingLeavesBackground from './FloatingLeavesBackground'; // Import the background component
 import { useNavigate } from 'react-router-dom';
+import { apiUrl } from './api/baseUrl';
 import { useAuth } from './context/AuthContext';
 
 // ✅ FIX: These components are now outside the Login component
@@ -78,7 +79,7 @@ const Login = () => {
     e.preventDefault();
     setError('');
     try {
-      const res = await fetch('http://localhost:8000/api/login/', {
+      const res = await fetch(apiUrl('/api/login/'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),

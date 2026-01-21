@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Filter, ChevronDown, ChevronUp, CheckSquare, Square, Eye, Trash2, ChevronRight, Package, Truck, CheckCircle, Check, ShoppingBag, Calendar, MapPin, Phone, DollarSign, TrendingUp, Clock, AlertCircle } from 'lucide-react';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
+import { apiUrl } from '../../api/baseUrl';
 
 const statusOptions = ['All', 'Pending', 'Accepted', 'Shipped', 'Delivered', 'Cancelled'];
 const sortOptions = [
@@ -208,7 +209,7 @@ export default function Orders() {
       setAnalyticsLoading(true);
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch('http://localhost:8000/api/farmer-analytics/', {
+        const res = await fetch(apiUrl('/api/farmer-analytics/'), {
           headers: { 'Authorization': `Token ${token}` }
         });
         if (!res.ok) throw new Error('Failed to fetch analytics');
@@ -227,7 +228,7 @@ export default function Orders() {
   const fetchOrders = async () => {
     const token = localStorage.getItem('token');
     try {
-      const res = await fetch('http://localhost:8000/api/farmer-order-items/', {
+      const res = await fetch(apiUrl('/api/farmer-order-items/'), {
         headers: { 'Authorization': `Token ${token}` }
       });
       if (!res.ok) throw new Error('Failed to fetch orders');
@@ -308,7 +309,7 @@ export default function Orders() {
     const token = localStorage.getItem('token');
     const id = acceptModal.order.id;
     try {
-      const res = await fetch(`http://localhost:8000/api/farmer-order-items/${id}/`, {
+      const res = await fetch(apiUrl(`/api/farmer-order-items/${id}/`), {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -337,14 +338,14 @@ export default function Orders() {
     const token = localStorage.getItem('token');
     if (deleteModal.bulk) {
       await Promise.all(selected.map(async id => {
-        await fetch(`http://localhost:8000/api/farmer-order-items/${id}/`, {
+        await fetch(apiUrl(`/api/farmer-order-items/${id}/`), {
           method: 'DELETE',
           headers: { 'Authorization': `Token ${token}` }
         });
       }));
       setSelected([]);
     } else if (deleteModal.order) {
-      await fetch(`http://localhost:8000/api/farmer-order-items/${deleteModal.order.id}/`, {
+      await fetch(apiUrl(`/api/farmer-order-items/${deleteModal.order.id}/`), {
         method: 'DELETE',
         headers: { 'Authorization': `Token ${token}` }
       });

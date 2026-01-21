@@ -12,12 +12,13 @@ import { useNavigate } from 'react-router-dom';
 import FloatingLeavesBackground from './FloatingLeavesBackground';
 import { fetchNotifications } from './api/notifications';
 import { useAuth } from './context/AuthContext';
+import { apiUrl } from './api/baseUrl';
 
 
 
-const PRODUCTS_API_URL = 'http://localhost:8000/api/products/';
-const ORDERS_API_URL = 'http://localhost:8000/api/farmer-order-items/';
-const MESSAGES_API_URL = 'http://localhost:8000/api/conversations/with_customer/';
+const PRODUCTS_API_URL = apiUrl('/api/products/');
+const ORDERS_API_URL = apiUrl('/api/farmer-order-items/');
+const MESSAGES_API_URL = apiUrl('/api/conversations/with_customer/');
 
 export default function FarmerDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -57,7 +58,7 @@ export default function FarmerDashboard() {
       let counts = { products: 0, orders: 0, messages: 0, notifications: 0 };
       try {
         // Products count
-        const profileRes = await fetch('http://localhost:8000/api/profile/', { headers: { 'Authorization': `Token ${token}` } });
+        const profileRes = await fetch(apiUrl('/api/profile/'), { headers: { 'Authorization': `Token ${token}` } });
         const profileData = await profileRes.json();
         const farmerName = profileData.profile.user.username;
         const prodRes = await fetch(`${PRODUCTS_API_URL}?farmer_username=${encodeURIComponent(farmerName)}`, { headers: { 'Authorization': `Token ${token}` } });
@@ -86,7 +87,7 @@ export default function FarmerDashboard() {
     // Fetch first and last name for sidebar
     const fetchProfile = async () => {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:8000/api/profile/', {
+      const res = await fetch(apiUrl('/api/profile/'), {
         headers: token ? { 'Authorization': 'Token ' + token } : {}
       });
       if (res.ok) {

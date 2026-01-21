@@ -31,10 +31,11 @@ import { useParams, useNavigate } from 'react-router-dom';
 import MessageButton from './MessageButton';
 import { getUserInitials } from '../utils';
 import { useAuth } from '../context/AuthContext';
+import { apiUrl } from '../api/baseUrl';
 
-const API_URL = 'http://localhost:8000/api/browse-products/';
-const REVIEWS_URL = 'http://localhost:8000/api/product-reviews/';
-const CART_ITEMS_URL = 'http://localhost:8000/api/cart/items/';
+const API_URL = apiUrl('/api/browse-products/');
+const REVIEWS_URL = apiUrl('/api/product-reviews/');
+const CART_ITEMS_URL = apiUrl('/api/cart/items/');
 
 const ProductDetails = ({ isInventory = false }) => {
   const { id } = useParams();
@@ -86,8 +87,8 @@ const ProductDetails = ({ isInventory = false }) => {
       setError('');
       try {
         const url = isInventory
-          ? `http://localhost:8000/api/inventory/${id}/`
-          : `http://localhost:8000/api/browse-products/${id}/`;
+          ? apiUrl(`/api/inventory/${id}/`)
+          : apiUrl(`/api/browse-products/${id}/`);
         const res = await fetch(url, {
           headers: token ? { 'Authorization': 'Token ' + token } : {},
         });
@@ -111,7 +112,7 @@ const ProductDetails = ({ isInventory = false }) => {
       setReviewError('');
       try {
         const url = isInventory
-          ? `http://localhost:8000/api/inventory-reviews/?product=${id}`
+          ? apiUrl(`/api/inventory-reviews/?product=${id}`)
           : `${REVIEWS_URL}?product=${id}`;
         const res = await fetch(url, {
           headers: token ? { 'Authorization': 'Token ' + token } : {},
@@ -143,7 +144,7 @@ const ProductDetails = ({ isInventory = false }) => {
       setDistributionLoading(true);
       try {
         const url = isInventory
-          ? `http://localhost:8000/api/inventory-reviews/rating_distribution/?product=${id}`
+          ? apiUrl(`/api/inventory-reviews/rating_distribution/?product=${id}`)
           : `${REVIEWS_URL}rating_distribution/?product=${id}`;
         const res = await fetch(url, {
           headers: token ? { 'Authorization': 'Token ' + token } : {},
@@ -173,7 +174,7 @@ const ProductDetails = ({ isInventory = false }) => {
       const cat = product?.category || '';
       const subcat = product?.subcategory || '';
       if (!cat) { setLoadingSimilar(false); setSimilarProducts([]); return; }
-      fetch(`http://localhost:8000/api/inventory/?category=${encodeURIComponent(cat)}&subcategory=${encodeURIComponent(subcat)}`)
+      fetch(apiUrl(`/api/inventory/?category=${encodeURIComponent(cat)}&subcategory=${encodeURIComponent(subcat)}`))
         .then(res => {
           if (!res.ok) throw new Error('Failed to fetch similar products');
           return res.json();
@@ -186,7 +187,7 @@ const ProductDetails = ({ isInventory = false }) => {
         .finally(() => setLoadingSimilar(false));
     } else {
       // Existing logic for normal products
-      fetch(`http://localhost:8000/api/browse-products/${id}/similar/`, {
+      fetch(apiUrl(`/api/browse-products/${id}/similar/`), {
         headers: token ? { 'Authorization': 'Token ' + token } : {},
       })
         .then(res => {
@@ -239,7 +240,7 @@ const ProductDetails = ({ isInventory = false }) => {
     setOrdering(true);
     try {
       // Fetch profile for address
-      const profileRes = await fetch('http://localhost:8000/api/profile/', {
+      const profileRes = await fetch(apiUrl('/api/profile/'), {
         headers: token ? { 'Authorization': 'Token ' + token } : {},
       });
       if (!profileRes.ok) throw new Error('Failed to fetch profile');
@@ -260,7 +261,7 @@ const ProductDetails = ({ isInventory = false }) => {
         note: ''
       };
       // Place order
-      const res = await fetch('http://localhost:8000/api/orders/', {
+      const res = await fetch(apiUrl('/api/orders/'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -327,7 +328,7 @@ const ProductDetails = ({ isInventory = false }) => {
       formData.append('rating', reviewStars);
       formData.append('review', reviewText);
       if (reviewImage) formData.append('image', reviewImage);
-      const url = isInventory ? 'http://localhost:8000/api/inventory-reviews/' : REVIEWS_URL;
+      const url = isInventory ? apiUrl('/api/inventory-reviews/') : REVIEWS_URL;
       const res = await fetch(url, {
         method: 'POST',
         headers: { 'Authorization': 'Token ' + token },
@@ -354,7 +355,7 @@ const ProductDetails = ({ isInventory = false }) => {
       setReviewImage(null);
       setTimeout(() => setReviewSubmitSuccess(false), 2000);
       // Refresh reviews
-      const reviewRes = await fetch(`${isInventory ? 'http://localhost:8000/api/inventory-reviews/?product=' + id : REVIEWS_URL + '?product=' + id}`, {
+      const reviewRes = await fetch(isInventory ? apiUrl(`/api/inventory-reviews/?product=${id}`) : `${REVIEWS_URL}?product=${id}`, {
         headers: { 'Authorization': 'Token ' + token }
       });
       if (reviewRes.ok) {
@@ -380,7 +381,7 @@ const ProductDetails = ({ isInventory = false }) => {
   const handleLike = async (reviewId) => {
     try {
       const url = isInventory
-        ? `http://localhost:8000/api/inventory-reviews/${reviewId}/like/`
+        ? apiUrl(`/api/inventory-reviews/${reviewId}/like/`)
         : `${REVIEWS_URL}${reviewId}/like/`;
       const res = await fetch(url, {
         method: 'POST',
@@ -400,7 +401,7 @@ const ProductDetails = ({ isInventory = false }) => {
   const handleDislike = async (reviewId) => {
     try {
       const url = isInventory
-        ? `http://localhost:8000/api/inventory-reviews/${reviewId}/dislike/`
+        ? apiUrl(`/api/inventory-reviews/${reviewId}/dislike/`)
         : `${REVIEWS_URL}${reviewId}/dislike/`;
       const res = await fetch(url, {
         method: 'POST',
@@ -420,7 +421,7 @@ const ProductDetails = ({ isInventory = false }) => {
   const handleUnlike = async (reviewId) => {
     try {
       const url = isInventory
-        ? `http://localhost:8000/api/inventory-reviews/${reviewId}/unlike/`
+        ? apiUrl(`/api/inventory-reviews/${reviewId}/unlike/`)
         : `${REVIEWS_URL}${reviewId}/unlike/`;
       const res = await fetch(url, {
         method: 'POST',

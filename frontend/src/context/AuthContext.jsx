@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { apiUrl } from '../api/baseUrl';
 
 const AuthContext = createContext();
 
@@ -26,7 +27,7 @@ export const AuthProvider = ({ children }) => {
     }
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:8000/api/profile/', {
+      const res = await fetch(apiUrl('/api/profile/'), {
         headers: { 'Authorization': `Token ${token}` }
       });
       if (!res.ok) throw new Error('Not authenticated');
